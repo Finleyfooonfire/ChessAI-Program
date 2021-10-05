@@ -82,7 +82,7 @@ public class Main {
                     }
 
                     colour = "W";
-                } else if (colour.equals("W")){
+                } else if (colour.equals("W")){     //to make life eaiser the player is always going to be white, they wont have an option
                     Scanner scan = new Scanner(System.in);
                     System.out.println("Please input the piece you would want to move");
                     String pieceChoice = scan.nextLine();
@@ -127,7 +127,9 @@ public class Main {
                             }
                         }
                     }//now all the validation has finished, it can now go onto doing the move
-
+                    //need to get the coordinates of the piece that is being moved
+                    String initialMoveX = store.currentPiecePositionsGet(pieceChoice);
+                    player.playerMove(board, store, colour, );
 
                     colour = "B";
                 }

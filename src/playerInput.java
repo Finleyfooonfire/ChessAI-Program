@@ -92,7 +92,7 @@ public class playerInput {
         return(layer);
     }
 
-    public String[][] playerMove(String[][] board, Storage storage, String colour, int startX, int startY){
+    public String[][] playerMove(String[][] board, Storage storage, String colour, int startX, int startY, int endX, int endY){
         /*
         All the things that are needed
         It needs to know the place that is going to be moved from
