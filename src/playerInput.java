@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class playerInput {
@@ -92,7 +93,7 @@ public class playerInput {
         return(layer);
     }
 
-    public String[][] playerMove(String[][] board, Storage storage, String colour, int startX, int startY, int endX, int endY){
+    public String[][] playerMove(String[][] board, Storage storage, String colour, int startX, int startY, int endX, int endY, String moveType){
         /*
         All the things that are needed
         It needs to know the place that is going to be moved from
@@ -101,8 +102,52 @@ public class playerInput {
         It needs to have access to the storage part of the program
         It needs to have access to the board so that it can modify it.
          */
+        //as everything is already validated so there needs to be no validation on input with movement layers
+        String movingPiece = board[startX][startY];     //this is the current piece that is being moved.
+        System.out.println(startX);
+        System.out.println(startY);
+          //this is setting the place it moved from as empty
+        if(moveType.equals("1")){
+            board[endX][endY] = movingPiece;
+            board[startX][startY] = "E";
+            System.out.println("Current Moving Piece is " + movingPiece + "...");
+            storage.currentPiecePositionsSet(movingPiece, "" + endX + "" + endY);
+            if(board[endX][endY].charAt(1) == 'P'){
+                ArrayList<String> movablePawns = storage.currentPawnsAllowedMoveGet();
+                movablePawns.remove(movingPiece);
+            }
+        }else if(moveType.equals("2")){
 
-
+            String takenPiece = board[endX][endY];
+            String takenPieceChar = "" + board[endX][endY].charAt(1);
+            board[startX][startY] = "E";
+            switch (takenPieceChar) {
+                case ("P") -> {
+                    ArrayList<String> currentPieces = storage.currentBlackPiecesGet("pawn");
+                    currentPieces.remove(takenPiece);
+                }
+                case ("C") -> {
+                    ArrayList<String> currentPieces = storage.currentBlackPiecesGet("castle");
+                    currentPieces.remove(takenPiece);
+                }
+                case ("B") -> {
+                    ArrayList<String> currentPieces = storage.currentBlackPiecesGet("bishop");
+                    currentPieces.remove(takenPiece);
+                }
+                case ("Q") -> {
+                    ArrayList<String> currentPieces = storage.currentBlackPiecesGet("queen");
+                    currentPieces.remove(takenPiece);
+                }
+                case ("K") -> {
+                    ArrayList<String> currentPieces = storage.currentBlackPiecesGet("king");
+                    currentPieces.remove(takenPiece);
+                }
+                case ("H") -> {
+                    ArrayList<String> currentPieces = storage.currentBlackPiecesGet("horse");
+                    currentPieces.remove(takenPiece);
+                }
+            }
+        }
         return board;
     }
 

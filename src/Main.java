@@ -71,7 +71,6 @@ public class Main {
             playerInput player = new playerInput();
             String colour = "W";
             int times = 0;
-            String[][] board2 = board;
             while (times < 100) {
                 if (colour.equals("B")) {
 
@@ -84,8 +83,6 @@ public class Main {
                                 }
                                 System.out.println(line);
                             }
-
-
 
                     colour = "W";
                 } else if (colour.equals("W")){     //to make life eaiser the player is always going to be white, they wont have an option
@@ -136,11 +133,12 @@ public class Main {
                         }
                     }//now all the validation has finished, it can now go onto doing the move
                     //need to get the coordinates of the piece that is being moved
+                    String moveType = layerMap[coordinateX][coordinateY];
                     String initialMove = store.currentPiecePositionsGet(pieceChoice);
-                    System.out.println(initialMove);
-                    int initialMoveX = Integer.parseInt("" + initialMove.charAt(0));
-                    int initialMoveY = Integer.parseInt("" + initialMove.charAt(0));
-                    player.playerMove(board, store, colour, initialMoveX, initialMoveY, coordinateX, coordinateY);
+                    System.out.println(initialMove);    //this is the place where the piece that is being moved is stored
+                    int initialMoveX = Integer.parseInt("" + initialMove.charAt(0));    //this is seperating it into seperate parts
+                    int initialMoveY = Integer.parseInt("" + initialMove.charAt(1));
+                    player.playerMove(board, store, colour, initialMoveX, initialMoveY, coordinateX, coordinateY, moveType);  //this is what deals with the user input and changing the values
 
                     colour = "B";
                 }
