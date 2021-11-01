@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.ArrayList;
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //All of the constructors
         Horse horse = new Horse();
         King king = new King();
@@ -16,137 +16,139 @@ public class Main {
 
         //this is making sure that all the arrays are initilised from the storage class
         String[][] board = {
-                {"WC1","WH1","WB1","WK1","WQ1","WB2","WH2","WC2"},
-                {"WP1","WP2","WP3","WP4","WP5","WP6","WP7","WP8"},
-                { "E",  "E",  "E",  "E",  "E",  "E",  "E",  "E"},
-                { "E",  "E",  "E",  "E",  "E",  "E",  "E",  "E"},
-                { "E",  "E",  "E",  "E",  "E",  "E",  "E",  "E"},
-                { "E",  "E",  "E",  "E",  "E",  "E",  "E",  "E"},
-                {"BP1","BP2","BP3","BP4","BP5","BP6","BP7","BP8"},
-                {"BC1","BH1","BB1","BK1","BQ1","BB2","BH2","BC2"},
+                {"WC1", "WH1", "WB1", "WK1", "WQ1", "WB2", "WH2", "WC2"},
+                {"WP1", "WP2", "WP3", "WP4", "WP5", "WP6", "WP7", "WP8"},
+                {"E", "E", "E", "E", "E", "E", "E", "E"},
+                {"E", "E", "E", "E", "E", "E", "E", "E"},
+                {"E", "E", "E", "E", "E", "E", "E", "E"},
+                {"E", "E", "E", "E", "E", "E", "E", "E"},
+                {"BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "BP8"},
+                {"BC1", "BH1", "BB1", "BK1", "BQ1", "BB2", "BH2", "BC2"},
         };
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             String line = "";
-            for(int a = 0; a < 8; a++){
-                line = line + " " +(board[i][a]);
+            for (int a = 0; a < 8; a++) {
+                line = line + " " + (board[i][a]);
             }
             System.out.println(line);
         }
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Input:");
-        String input = sc.nextLine();
-        if(input.equals("random")){
-            String colour = "W";
-            for(int b = 0; b < 100; b++) {
-                if (colour.equals("W")) {
-                    board = randomPart(board, store, colour);
-                    for (int i = 0; i < 8; i++) {
-                        String line = "";
-                        for (int a = 0; a < 8; a++) {
-                            line = line + " " + (board[i][a]);
-                        }
-                        System.out.println(line);
-                    }
-                    colour = "B";
-                    System.out.println("Move completed");
-
-                }else if(colour.equals("B")){
-                    board = randomPart(board, store, colour);
-                    for (int i = 0; i < 8; i++) {
-                        String line = "";
-                        for (int a = 0; a < 8; a++) {
-                            line = line + " " + (board[i][a]);
-                        }
-                        System.out.println(line);
-                    }
-                    colour = "W";
-                    System.out.println("Move completed");
-                }
-            }
-        }else if(input.equals("test")){
-
-
-            String[][] movementLayerOutput = queen.queenMain(board, 0, 4, store);
-        }else if(input.equals("random person")) {        //this is the part that will just simulate random move with player input
-            playerInput player = new playerInput();
-            String colour = "W";
-            int times = 0;
-            while (times < 100) {
-                if (colour.equals("B")) {
-
-                    randomPart(board, store, colour);//makes a random move for black
-                    System.out.println("\n\n");
-                            for (int i = 0; i < 8; i++) {
-                                String line = "";
-                                for (int a = 0; a < 8; a++) {
-                                    line = line + " " + (board[i][a]);
-                                }
-                                System.out.println(line);
+        while (true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Please state what you want to do:");
+            String input = sc.nextLine();
+            if (input.equals("random")) {
+                String colour = "W";
+                for (int b = 0; b < 100; b++) {
+                    if (colour.equals("W")) {
+                        board = randomPart(board, store, colour);
+                        for (int i = 0; i < 8; i++) {
+                            String line = "";
+                            for (int a = 0; a < 8; a++) {
+                                line = line + " " + (board[i][a]);
                             }
-
-                    colour = "W";
-                } else if (colour.equals("W")){     //to make life eaiser the player is always going to be white, they wont have an option
-                    Scanner scan = new Scanner(System.in);
-                    System.out.println("Please input the piece you would want to move");
-                    String pieceChoice = scan.nextLine();
-                    String[][] layerMap = player.getLayerMap(pieceChoice, board, store);
-                    System.out.println("These are the possible moves that can be taken");
-                    for (int i = 0; i < 8; i++) {
-                        String line = "";
-                        for (int a = 0; a < 8; a++) {
-                            line = line + " " + (layerMap[i][a]);
+                            System.out.println(line);
                         }
-                        System.out.println(line);
+                        colour = "B";
+                        System.out.println("Move completed");
+
+                    } else if (colour.equals("B")) {
+                        board = randomPart(board, store, colour);
+                        for (int i = 0; i < 8; i++) {
+                            String line = "";
+                            for (int a = 0; a < 8; a++) {
+                                line = line + " " + (board[i][a]);
+                            }
+                            System.out.println(line);
+                        }
+                        colour = "W";
+                        System.out.println("Move completed");
                     }
-                    //declaring the coordinate varialbes
-                    int coordinateX;
-                    int coordinateY;
-                    while(true) {
-                        String placeToMove;
-                        while(true) {
-                            System.out.println("Please pick the coordinates to move to");
-                            placeToMove = scan.nextLine();
-                            if (placeToMove.charAt(0) == '9') {
-                                System.out.println("That is not valid, please try again");
-                            }else{
+                }
+            } else if (input.equals("test")) {
+
+
+                String[][] movementLayerOutput = queen.queenMain(board, 0, 4, store);
+            } else if (input.equals("random person")) {        //this is the part that will just simulate random move with player input
+                playerInput player = new playerInput();
+                String colour = "W";
+                int times = 0;
+                while (times < 100) {
+                    if (colour.equals("B")) {
+
+                        randomPart(board, store, colour);//makes a random move for black
+                        System.out.println("\n\n");
+                        for (int i = 0; i < 8; i++) {
+                            String line = "";
+                            for (int a = 0; a < 8; a++) {
+                                line = line + " " + (board[i][a]);
+                            }
+                            System.out.println(line);
+                        }
+
+                        colour = "W";
+                    } else if (colour.equals("W")) {     //to make life eaiser the player is always going to be white, they wont have an option
+                        Scanner scan = new Scanner(System.in);
+                        System.out.println("Please input the piece you would want to move");
+                        String pieceChoice = scan.nextLine();
+                        String[][] layerMap = player.getLayerMap(pieceChoice, board, store);
+                        System.out.println("These are the possible moves that can be taken");
+                        for (int i = 0; i < 8; i++) {
+                            String line = "";
+                            for (int a = 0; a < 8; a++) {
+                                line = line + " " + (layerMap[i][a]);
+                            }
+                            System.out.println(line);
+                        }
+                        //declaring the coordinate varialbes
+                        int coordinateX;
+                        int coordinateY;
+                        while (true) {
+                            String placeToMove;
+                            while (true) {
+                                System.out.println("Please pick the coordinates to move to");
+                                placeToMove = scan.nextLine();
+                                if (placeToMove.charAt(0) == '9') {
+                                    System.out.println("That is not valid, please try again");
+                                } else {
+                                    break;
+                                }
+                            }
+                            String placeToMoveTranslated = player.inputTranslator(placeToMove);
+                            coordinateX = Integer.parseInt("" + placeToMoveTranslated.charAt(0));
+                            coordinateY = Integer.parseInt("" + placeToMoveTranslated.charAt(1));
+                            if (store.debugGet() == 1) {  //part of the debug values
+                                System.out.println("X: " + coordinateX); //this is where they are going to move to
+                                System.out.println("Y: " + coordinateY); //this is where they aregoing to move to.
+                            }
+                            if (!layerMap[coordinateX][coordinateY].equals("0") && !layerMap[coordinateX][coordinateY].equals("3")) {
                                 break;
-                            }
-                        }
-                        String placeToMoveTranslated = player.inputTranslator(placeToMove);
-                        coordinateX = Integer.parseInt(""+placeToMoveTranslated.charAt(0));
-                        coordinateY = Integer.parseInt(""+placeToMoveTranslated.charAt(1));
-                        if(store.debugGet() == 1){  //part of the debug values
-                            System.out.println("X: "+ coordinateX); //this is where they are going to move to
-                            System.out.println("Y: "+ coordinateY); //this is where they aregoing to move to.
-                        }
-                        if (!layerMap[coordinateX][coordinateY].equals("0") && !layerMap[coordinateX][coordinateY].equals("3") ) {
-                            break;
-                        }else{
-                            System.out.println("Please pick a place that you can move to");
-                            for (int i = 0; i < 8; i++) {
-                                String line = "";
-                                for (int a = 0; a < 8; a++) {
-                                    line = line + " " + (layerMap[i][a]);
+                            } else {
+                                System.out.println("Please pick a place that you can move to");
+                                for (int i = 0; i < 8; i++) {
+                                    String line = "";
+                                    for (int a = 0; a < 8; a++) {
+                                        line = line + " " + (layerMap[i][a]);
+                                    }
+                                    System.out.println(line);
                                 }
-                                System.out.println(line);
                             }
-                        }
-                    }//now all the validation has finished, it can now go onto doing the move
-                    //need to get the coordinates of the piece that is being moved
-                    String moveType = layerMap[coordinateX][coordinateY];
-                    String initialMove = store.currentPiecePositionsGet(pieceChoice);
-                    System.out.println(initialMove);    //this is the place where the piece that is being moved is stored
-                    int initialMoveX = Integer.parseInt("" + initialMove.charAt(0));    //this is seperating it into seperate parts
-                    int initialMoveY = Integer.parseInt("" + initialMove.charAt(1));
-                    player.playerMove(board, store, colour, initialMoveX, initialMoveY, coordinateX, coordinateY, moveType);  //this is what deals with the user input and changing the values
+                        }//now all the validation has finished, it can now go onto doing the move
+                        //need to get the coordinates of the piece that is being moved
+                        String moveType = layerMap[coordinateX][coordinateY];
+                        String initialMove = store.currentPiecePositionsGet(pieceChoice);
+                        System.out.println(initialMove);    //this is the place where the piece that is being moved is stored
+                        int initialMoveX = Integer.parseInt("" + initialMove.charAt(0));    //this is seperating it into seperate parts
+                        int initialMoveY = Integer.parseInt("" + initialMove.charAt(1));
+                        player.playerMove(board, store, colour, initialMoveX, initialMoveY, coordinateX, coordinateY, moveType);  //this is what deals with the user input and changing the values
 
-                    colour = "B";
+                        colour = "B";
+                    }
                 }
+            }else if(input.equals("exit")){
+                System.out.println("Thank you for playing");
+                System.exit(0);
             }
-        }
-
-
-
+       }
     }
 
 
@@ -688,13 +690,13 @@ public class Main {
                 //System.out.println("It is Blacks turn");
                 while(true){
                     int currentMoves = 0 ;
-                int pieceType = random.nextInt(6);     //this is a random part for the pieces, getting the piece that is going to be used
+                int pieceType = 1; //random.nextInt(6);     //this is a random part for the pieces, getting the piece that is going to be used
                 int amountOfPiece = 0;
                 String pieceName = "";
                 switch (pieceType) {
                     case (0) -> {
                         amountOfPiece = (storage.currentBlackPiecesGet("king")).size();       //this gets the amount of
-                        System.out.println(amountOfPiece);
+                        System.out.println("The amount of black kings on the board: "+ amountOfPiece);
                         if (amountOfPiece == 0) {
                             break;
                         }
@@ -721,7 +723,6 @@ public class Main {
                         for (int i = 0; i < 8; i++) {
                             for (int a = 0; a < 8; a++) {
                                 if (movementLayer[i][a].equals("1")) {
-
                                     if (position == moveToMake) {     //it should have now found a move to make
 
                                         board[i][a] = whatPiece;    //this is the place the piece is moving to
@@ -779,6 +780,7 @@ public class Main {
                         break;
                     }
                     case (1) -> {
+
                         amountOfPiece = (storage.currentBlackPiecesGet("pawn")).size();       //this gets the amount of pieces
                         System.out.println(amountOfPiece);
                         if (amountOfPiece == 0) {
@@ -804,6 +806,7 @@ public class Main {
                         if (currentMoves == 0) {
                             break;   //this will need to be refined at a later date and ill need to make sure that it doesnt count this move
                         }
+
                         int moveToMake = random.nextInt(currentMoves);     //this is the move that is going to be made
                         int position = 0;
                         for (int i = 0; i < 8; i++) {

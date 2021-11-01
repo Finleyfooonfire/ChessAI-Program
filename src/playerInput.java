@@ -90,7 +90,20 @@ public class playerInput {
             case "king" -> layer = king.kingMain(array, coordinateX, coordinateY, store);
             case "horse" -> layer = horse.horseMain(array, coordinateX, coordinateY, store);
         }
+        store.currentAvailableMovesSet("king", 0);   //this is needed, this caused me so much pain
+        store.currentAvailableMovesTakeSet("king", 0);  //Th
+        store.currentAvailableMovesSet("pawn", 0);   //this is needed, this caused me so much pain
+        store.currentAvailableMovesTakeSet("pawn", 0);  //Th
+        store.currentAvailableMovesSet("bishop", 0);   //this is needed, this caused me so much pain
+        store.currentAvailableMovesTakeSet("bishop", 0);  //Th
+        store.currentAvailableMovesSet("queen", 0);   //this is needed, this caused me so much pain
+        store.currentAvailableMovesTakeSet("queen", 0);  //Th
+        store.currentAvailableMovesSet("castle", 0);   //this is needed, this caused me so much pain
+        store.currentAvailableMovesTakeSet("castle", 0);  //Th
+        store.currentAvailableMovesSet("horse", 0);   //this is needed, this caused me so much pain
+        store.currentAvailableMovesTakeSet("horse", 0);  //Th
         return(layer);
+
     }
 
     public String[][] playerMove(String[][] board, Storage storage, String colour, int startX, int startY, int endX, int endY, String moveType){

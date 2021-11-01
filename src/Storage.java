@@ -22,7 +22,7 @@ public class Storage {
         ArrayList<String> amountOfBlackKing = new ArrayList<>(Arrays.asList("BK1"));
 
 
-    int debug = 0;
+    int debug = 1;
 
     int castlePieceScore = 0;
     int pawnPieceScore = 0;
