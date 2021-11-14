@@ -1,7 +1,8 @@
 public class King extends Piece {
     public String[][] kingMain(String[][] array, int StartX, int StartY, Storage store){
+        System.out.println("The king layer has been activated");
         String firstHalf = array[StartX][StartY].substring(0,2);
-        String[][] boardOutput = array;
+        String[][] boardOutput = null;
         if(firstHalf.equals("WK")){
             //System.out.println("There is a white king here");
             boardOutput = layerSystemKing(array, StartX, StartY, store);
@@ -13,7 +14,7 @@ public class King extends Piece {
         return boardOutput;
     }
 
-    public static String[][] checkMateChecker(String[][] array, int StartX, int StartY, Storage store){
+    public static String[][] checkChecker(String[][] array, int StartX, int StartY, Storage store){
         String[][] avoidLossLayer = {
                 {"0","0","0","0","0","0","0","0"},
                 {"0","0","0","0","0","0","0","0"},
@@ -24,11 +25,40 @@ public class King extends Piece {
                 {"0","0","0","0","0","0","0","0"},
                 {"0","0","0","0","0","0","0","0"},
         };
-
+        //This is part is just going to check if one of the kings is dead, if they are then it ends the game automatiically
 
 
         return avoidLossLayer;  //this will return the places that it needs to move towards to avoid loosing
     }
+
+    public static int checkMateChecker(String[][] array, Storage store){
+        int result = 0;  //0 is no checkMate, 1 is WhiteKing is in checkmate, 2 is BlackKing is in checkmate
+        //i need to generate a layer which has all of the possible moves of all the pieces
+        playerInput pI = new playerInput();
+
+        String WK1position = store.currentPiecePositionsGet("WK1");
+
+        int WK1X = Integer.parseInt("" + WK1position.charAt(0));
+        int WK1Y = Integer.parseInt("" + WK1position.charAt(1));
+        System.out.println("The white kings current position is X:" + WK1X +" Y:" +WK1Y);
+        String[][] occupation = pI.boardOccupation(array, store, "W");
+
+        String BK1position = store.currentPiecePositionsGet("BK1");
+        int BK1X = Integer.parseInt("" + WK1position.charAt(0));
+        int BK1Y = Integer.parseInt("" + WK1position.charAt(1));
+        for (int i = 0; i < 8; i++) {
+            String line = "";
+            for (int a = 0; a < 8; a++) {
+                line = line + " " + (occupation[i][a]);
+            }
+            System.out.println(line);
+        }
+
+
+
+        return result;
+    }
+
 
     public static String[][] layerSystemKing(String[][] array, int StartX, int StartY, Storage store){
         String [][] kingLayer = {     //This is the base "mesh" used to layer the piece movements

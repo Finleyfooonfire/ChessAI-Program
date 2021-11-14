@@ -1,7 +1,8 @@
 public class Castle extends Piece{
     public String[][] castleMain(String[][] array, int StartX, int StartY, Storage store){
+        System.out.println("The castle layer has been activated");
         String firstHalf = array[StartX][StartY].substring(0,2);
-        String[][] boardOutput = array;
+        String[][] boardOutput = null;
         if(firstHalf.equals("WC")){
             boardOutput = layerSystemCastle(array, StartX, StartY, store);
 
@@ -93,6 +94,7 @@ public class Castle extends Piece{
 
         castleLayer[StartX][StartY] = "3";
         if(store.debugGet() == 1) {
+            System.out.println("CastleLayer Output:\n");
             for (int i = 0; i < 8; i++) {
                 String line = "";
                 for (int a = 0; a < 8; a++) {

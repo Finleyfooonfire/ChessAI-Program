@@ -1,7 +1,8 @@
 public class Bishop extends Piece {
     public String[][] bishopMain(String[][] array, int StartX , int StartY, Storage store){
+        System.out.println("The bishop layer has been activated");
         String firstHalf = array[StartX][StartY].substring(0,2);
-        String[][] boardOutput = array;
+        String[][] boardOutput = null;
         if(firstHalf.equals("WB")){         //remember that only pawns can be passed please, you absolute pillock
             //System.out.println("There is a white bishop here");
             boardOutput = layerSystemBishop(array, StartX, StartY, store);
@@ -124,6 +125,7 @@ public class Bishop extends Piece {
 
         bishopLayer[StartX][StartY] = "3";
         if(store.debugGet() == 1) {
+            System.out.println("BishopLayer Output:\n");
             for (int i = 0; i < 8; i++) {
                 String line = "";
                 for (int a = 0; a < 8; a++) {

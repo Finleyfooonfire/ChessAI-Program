@@ -87,6 +87,17 @@ public class Storage {
     ArrayList<String> pawnsNotMoved = new ArrayList<>(Arrays.asList("BP1","BP2","BP3","BP4","BP5","BP6","BP7","BP8","WP1","WP2","WP3","WP4","WP5","WP6","WP7","WP8"));
     //This the array that is holding all the data on the pawns moved. If it is in the list then that pawn hasnt been moved.
 
+    String [][] spaceOccupation = {     //this is used to save the space occupations
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+            {"0","0","0","0","0","0","0","0"},
+    };
+
     public int debugGet(){
         return debug;
     }
@@ -299,6 +310,14 @@ public class Storage {
             case "BK1" -> currentPositionOfBK1 = value;
             case "BQ1" -> currentPositionOfBQ1 = value;
         }
+    }
+
+    public String[][] getSpaceOccupation(){
+        return(spaceOccupation);
+    }
+
+    public void setSpaceOccupation(String[][] array){
+        spaceOccupation = array;
     }
 
 }

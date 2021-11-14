@@ -2,9 +2,10 @@ import javax.sql.rowset.FilteredRowSet;
 
 public class Queen extends Piece {
     public String[][] queenMain(String[][] array, int StartX, int StartY, Storage store){
+        System.out.println("The queen layer has been activated");
         String firstHalf = array[StartX][StartY].substring(0,2);
 
-        String[][] boardOutput = array;
+        String[][] boardOutput = null;
         if(firstHalf.equals("WQ")){
            // System.out.println("There is a white queen here");
             boardOutput = layerSystemQueen(array, StartX, StartY, store);
@@ -173,6 +174,7 @@ public class Queen extends Piece {
         }
         queenLayer[StartX][StartY] = "3";
         if(store.debugGet() == 1) {
+            System.out.println("QueenLayer Output:\n");
             for (int i = 0; i < 8; i++) {
                 String line = "";
                 for (int a = 0; a < 8; a++) {

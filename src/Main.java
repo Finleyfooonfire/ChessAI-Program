@@ -38,8 +38,11 @@ public class Main {
             String input = sc.nextLine();
             if (input.equals("random")) {
                 String colour = "W";
-                for (int b = 0; b < 100; b++) {
+                for (int b = 0; b < 80; b++) {
+                    System.out.println("On the " + b+ "th iteration of random moves");
                     if (colour.equals("W")) {
+                        System.out.println("It is whites move now");
+                        King.checkMateChecker(board, store);
                         board = randomPart(board, store, colour);
                         for (int i = 0; i < 8; i++) {
                             String line = "";
@@ -53,6 +56,7 @@ public class Main {
 
                     } else if (colour.equals("B")) {
                         board = randomPart(board, store, colour);
+                        System.out.println("i got here");
                         for (int i = 0; i < 8; i++) {
                             String line = "";
                             for (int a = 0; a < 8; a++) {
@@ -151,6 +155,8 @@ public class Main {
        }
     }
 
+    //this is a method that will generate a map of all of the free spaces on the board.
+
 
     public static String[][] randomPart(String[][] board, Storage storage, String colour){  //this is a fully working, fully validated random move picker, i am proud of my baby
         Horse horse = new Horse();
@@ -162,9 +168,9 @@ public class Main {
         int whichTurn = 0;   //This is a variable that is going to be a flip flop, it is going to keep track of whose turn it is
         Random random = new Random();
         int times = 0;
-
                //this is the start of the random loop
             if (colour == "W") {
+
                 while(true) {
                     int currentMoves = 0 ;
                     int pieceType = random.nextInt(6);     //this is a random part for the pieces, getting the piece that is going to be used
@@ -295,6 +301,7 @@ public class Main {
 
                                             //now the positions need to be updated in the storage
                                             storage.currentPiecePositionsSet(whatPiece, "" + i + "" + a);
+
                                             position = 1111; //this breaks the loop
                                         }
                                         position += 1;

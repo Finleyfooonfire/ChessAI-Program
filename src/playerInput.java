@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class playerInput {
@@ -60,8 +61,54 @@ public class playerInput {
         }
         return (playerInput);
     }
+    public static String[][] boardOccupation(String[][] array, Storage store, String colour){
+        String[][] spaceOccupation = store.getSpaceOccupation();
+        playerInput pI = new playerInput();
+        ArrayList<String> allPiecesWhite = new ArrayList<>();
+        //this is adding all the white pieces so it can cycle through
+        allPiecesWhite.addAll(store.currentWhitePiecesGet("pawn"));
+        allPiecesWhite.addAll(store.currentWhitePiecesGet("horse"));
+        allPiecesWhite.addAll(store.currentWhitePiecesGet("queen"));
+        allPiecesWhite.addAll(store.currentWhitePiecesGet("king"));
+        allPiecesWhite.addAll(store.currentWhitePiecesGet("bishop"));
+        allPiecesWhite.addAll(store.currentWhitePiecesGet("castle"));
+
+        String [] blackPieces = {"BC1","BC2","BP1","BP2","BP3","BP4","BP5","BP6","BP7","BP8","BB1","BB2","BH1","BH2","BQ1","BK1"};
+
+        ArrayList<String> allPiecesBlack = new ArrayList<>();
+        //this is adding all the white pieces so it can cycle through
+        allPiecesWhite.addAll(store.currentBlackPiecesGet("pawn"));
+        allPiecesWhite.addAll(store.currentBlackPiecesGet("horse"));
+        allPiecesWhite.addAll(store.currentBlackPiecesGet("queen"));
+        allPiecesWhite.addAll(store.currentBlackPiecesGet("king"));
+        allPiecesWhite.addAll(store.currentBlackPiecesGet("bishop"));
+        allPiecesWhite.addAll(store.currentBlackPiecesGet("castle"));
+
+        if(colour.equals("W")) {
+            for (int i = 0; i < 16; i++) {
+                //The array part is the active map that is being worked on
+                String [][] layerMap = pI.getLayerMap(allPiecesWhite.get(i), array, store);
+                for(int a = 0;a < 8; a++){
+                    for(int b = 0;b < 8; b++){
+                        //System.out.println("space "+spaceOccupation[a][b]);
+                        //System.out.println("layer "+ layerMap[a][b]);
+                        if((Integer.parseInt(spaceOccupation[a][b]) + Integer.parseInt(layerMap[a][b]) )>= 1){
+                            spaceOccupation[a][b] = "1";
+                        }
+                    }
+                }
+            }
+            store.setSpaceOccupation(spaceOccupation);
+        }else if(colour.equals("B")){
+
+        }
+
+        return spaceOccupation;
+
+    }
 
     public String[][] getLayerMap(String piece, String[][] array, Storage store){
+        System.out.println("The getLayerMap method has been called");
         Horse horse = new Horse();
         King king = new King();
         Queen queen = new Queen();
@@ -81,6 +128,10 @@ public class playerInput {
         String position = store.currentPiecePositionsGet(piece);
         int coordinateX = Integer.parseInt(""+position.charAt(0));
         int coordinateY = Integer.parseInt(""+position.charAt(1));
+        System.out.println("The layer map for "+piece+" is being generated");
+        System.out.println("This piece's coordinates are X:"+coordinateX+" Y:"+coordinateY);
+
+
         String[][] layer = null;
         switch(type){
             case "castle" -> layer = castle.castleMain(array, coordinateX, coordinateY, store);
@@ -90,6 +141,16 @@ public class playerInput {
             case "king" -> layer = king.kingMain(array, coordinateX, coordinateY, store);
             case "horse" -> layer = horse.horseMain(array, coordinateX, coordinateY, store);
         }
+        System.out.println("The activated movement system from getting the LayerMap is " +type);
+        System.out.println("Their layer map is:\n");
+        for (int i = 0; i < 8; i++) {
+            String line = "";
+            for (int a = 0; a < 8; a++) {
+                line = line + " " + (layer[i][a]);
+            }
+            System.out.println(line);
+        }
+
         store.currentAvailableMovesSet("king", 0);   //this is needed, this caused me so much pain
         store.currentAvailableMovesTakeSet("king", 0);  //Th
         store.currentAvailableMovesSet("pawn", 0);   //this is needed, this caused me so much pain
@@ -103,6 +164,7 @@ public class playerInput {
         store.currentAvailableMovesSet("horse", 0);   //this is needed, this caused me so much pain
         store.currentAvailableMovesTakeSet("horse", 0);  //Th
         return(layer);
+
 
     }
 
