@@ -76,31 +76,89 @@ public class playerInput {
         String [] blackPieces = {"BC1","BC2","BP1","BP2","BP3","BP4","BP5","BP6","BP7","BP8","BB1","BB2","BH1","BH2","BQ1","BK1"};
 
         ArrayList<String> allPiecesBlack = new ArrayList<>();
-        //this is adding all the white pieces so it can cycle through
-        allPiecesWhite.addAll(store.currentBlackPiecesGet("pawn"));
-        allPiecesWhite.addAll(store.currentBlackPiecesGet("horse"));
-        allPiecesWhite.addAll(store.currentBlackPiecesGet("queen"));
-        allPiecesWhite.addAll(store.currentBlackPiecesGet("king"));
-        allPiecesWhite.addAll(store.currentBlackPiecesGet("bishop"));
-        allPiecesWhite.addAll(store.currentBlackPiecesGet("castle"));
+        //this is adding all the black pieces so it can cycle through
+        //This is using a system that doesnt deal with taking any of the pieces, that is done in the other classes. It only deals with nessesary data.
+        allPiecesBlack.addAll(store.currentBlackPiecesGet("pawn"));
+        allPiecesBlack.addAll(store.currentBlackPiecesGet("horse"));
+        allPiecesBlack.addAll(store.currentBlackPiecesGet("queen"));
+        allPiecesBlack.addAll(store.currentBlackPiecesGet("king"));
+        allPiecesBlack.addAll(store.currentBlackPiecesGet("bishop"));
+        allPiecesBlack.addAll(store.currentBlackPiecesGet("castle"));
 
         if(colour.equals("W")) {
-            for (int i = 0; i < 16; i++) {
+            for (int i = 0; i < allPiecesWhite.size(); i++) {
                 //The array part is the active map that is being worked on
-                String [][] layerMap = pI.getLayerMap(allPiecesWhite.get(i), array, store);
-                for(int a = 0;a < 8; a++){
-                    for(int b = 0;b < 8; b++){
-                        //System.out.println("space "+spaceOccupation[a][b]);
-                        //System.out.println("layer "+ layerMap[a][b]);
-                        if((Integer.parseInt(spaceOccupation[a][b]) + Integer.parseInt(layerMap[a][b]) )>= 1){
-                            spaceOccupation[a][b] = "1";
+                if((allPiecesWhite.get(i).charAt(1)) == 'P'){
+
+                    String [][] layerMap = pI.getLayerMap(allPiecesWhite.get(i), array, store);
+                    for(int a = 0;a < 8; a++){
+                        for(int b = 0;b < 8; b++){
+                            //any piece can take where they move, except if it is a pawn so there needs to be an exception for that
+                            if((Integer.parseInt(spaceOccupation[a][b]) + Integer.parseInt(layerMap[a][b]) )>= 2){
+                                if(Integer.parseInt(layerMap[a][b]) == 3){
+                                    spaceOccupation[a][b] = "0";
+                                }else{
+                                    spaceOccupation[a][b] = "1";
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    String [][] layerMap = pI.getLayerMap(allPiecesWhite.get(i), array, store);
+                    for(int a = 0;a < 8; a++){
+                        for(int b = 0;b < 8; b++){
+                            //any piece can take where they move, except if it is a pawn so there needs to be an exception for that
+                            if((Integer.parseInt(spaceOccupation[a][b]) + Integer.parseInt(layerMap[a][b]) )>= 1){
+                                if(Integer.parseInt(layerMap[a][b]) == 3){
+                                    spaceOccupation[a][b] = "0";
+                                }else{
+                                    spaceOccupation[a][b] = "1";
+                                }
+                            }
                         }
                     }
                 }
+
             }
             store.setSpaceOccupation(spaceOccupation);
-        }else if(colour.equals("B")){
 
+            //this is the same as above but it is for white instead
+        }else if(colour.equals("B")){
+            for (int i = 0; i < allPiecesBlack.size(); i++) {
+                //The array part is the active map that is being worked on
+                if((allPiecesBlack.get(i).charAt(1)) == 'P'){
+                    String [][] layerMap = pI.getLayerMap(allPiecesBlack.get(i), array, store);
+                    for(int a = 0;a < 8; a++){
+                        for(int b = 0;b < 8; b++){
+                            //any piece can take where they move, except if it is a pawn so there needs to be an exception for that
+                            if((Integer.parseInt(spaceOccupation[a][b]) + Integer.parseInt(layerMap[a][b]) )>= 2){
+                                if(Integer.parseInt(layerMap[a][b]) == 3){
+                                    spaceOccupation[a][b] = "0";
+                                }else{
+                                    spaceOccupation[a][b] = "1";
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    String [][] layerMap = pI.getLayerMap(allPiecesBlack.get(i), array, store);
+                    for(int a = 0;a < 8; a++){
+                        for(int b = 0;b < 8; b++){
+                            //any piece can take where they move, except if it is a pawn so there needs to be an exception for that
+                            if((Integer.parseInt(spaceOccupation[a][b]) + Integer.parseInt(layerMap[a][b]) )>= 1){
+                                if(Integer.parseInt(layerMap[a][b]) == 3){
+                                    spaceOccupation[a][b] = "0";
+                                }else{
+                                    spaceOccupation[a][b] = "1";
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+            store.setSpaceOccupation(spaceOccupation);
         }
 
         return spaceOccupation;

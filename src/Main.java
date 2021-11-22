@@ -32,17 +32,17 @@ public class Main {
             }
             System.out.println(line);
         }
-        while (true){
+        boolean gameRunning = true;
+        while (gameRunning){
             Scanner sc = new Scanner(System.in);
             System.out.println("Please state what you want to do:");
             String input = sc.nextLine();
             if (input.equals("random")) {
                 String colour = "W";
-                for (int b = 0; b < 80; b++) {
+                for (int b = 0; b < 100; b++) {
                     System.out.println("On the " + b+ "th iteration of random moves");
                     if (colour.equals("W")) {
                         System.out.println("It is whites move now");
-                        King.checkMateChecker(board, store);
                         board = randomPart(board, store, colour);
                         for (int i = 0; i < 8; i++) {
                             String line = "";
@@ -51,11 +51,31 @@ public class Main {
                             }
                             System.out.println(line);
                         }
+                        int isThereCheck = King.checkMateChecker(board,store, colour);
+                        switch (isThereCheck) {
+                            case 1 -> {
+                                System.out.println("There was checkmate, thank you for playing");
+                                System.exit(0);
+                            }
+                            case 3 -> {
+                                System.out.println("Black has won the game, congratulations");
+                                gameRunning = false;
+                            }
+                            case 4 -> {
+                                System.out.println("White has won the game, congratulations");
+                                gameRunning = false;
+                            }
+                        }
+
                         colour = "B";
                         System.out.println("Move completed");
 
+
                     } else if (colour.equals("B")) {
                         board = randomPart(board, store, colour);
+
+
+
                         System.out.println("i got here");
                         for (int i = 0; i < 8; i++) {
                             String line = "";
@@ -64,8 +84,25 @@ public class Main {
                             }
                             System.out.println(line);
                         }
+                        int isThereCheck = King.checkMateChecker(board,store, colour);
+                        switch (isThereCheck) {
+                            case 1 -> {
+                                System.out.println("There was checkmate, thank you for playing");
+                                System.exit(0);
+                            }
+                            case 3 -> {
+                                System.out.println("Black has won the game, congratulations");
+                                gameRunning = false;
+                            }
+                            case 4 -> {
+                                System.out.println("White has won the game, congratulations");
+                                gameRunning = false;
+                            }
+                        }
+
                         colour = "W";
                         System.out.println("Move completed");
+
                     }
                 }
             } else if (input.equals("test")) {
@@ -697,7 +734,7 @@ public class Main {
                 //System.out.println("It is Blacks turn");
                 while(true){
                     int currentMoves = 0 ;
-                int pieceType = 1; //random.nextInt(6);     //this is a random part for the pieces, getting the piece that is going to be used
+                int pieceType =  random.nextInt(6);     //this is a random part for the pieces, getting the piece that is going to be used
                 int amountOfPiece = 0;
                 String pieceName = "";
                 switch (pieceType) {
