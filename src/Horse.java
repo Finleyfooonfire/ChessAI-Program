@@ -2,23 +2,32 @@ import java.util.ArrayList;
 public class Horse extends Piece {
 
     public String[][] horseMain(String[][] array, int StartX , int StartY, Storage store){
-        System.out.println("The horse layer has been activated");
+        int debugValue = store.debugGet();
+        if(debugValue == 1) {
+            System.out.println("The horse layer has been activated");
+        }
         String firstHalf = array[StartX][StartY].substring(0,2);
 
         String[][] boardOutput = null;
         if(firstHalf.equals("WH")){         //remember that only pawns can be passed please, you absolute pillock
             //System.out.println("There is a white horse here");
-            System.out.println("A white horse movement layer is being generated..");
+            if(debugValue == 1) {
+                System.out.println("A white horse movement layer is being generated..");
+            }
             boardOutput = layerSystemHorse(array, StartX, StartY, store);
             return boardOutput;
 
         } else if (firstHalf.equals("BH")){
-            System.out.println("A black horse movement layer is being generated..");
+            if(debugValue == 1) {
+                System.out.println("A black horse movement layer is being generated..");
+            }
             //System.out.println("Black horse here");
             boardOutput = layerSystemHorse(array, StartX, StartY, store);
             return boardOutput;
         }else{
-            System.out.println("There was no white horse at the activated location of X:" + StartX + " Y:" + StartY +" with the attempted piece being " + array[StartX][StartY]);
+            if(debugValue == 1) {
+                System.out.println("There was no white horse at the activated location of X:" + StartX + " Y:" + StartY + " with the attempted piece being " + array[StartX][StartY]);
+            }
             return boardOutput;
         }
 

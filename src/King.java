@@ -32,11 +32,13 @@ public class King extends Piece {
     }
 
     public static int checkMateChecker(String[][] array, Storage store, String colour){
+        int debugValue = store.debugGet();
         //0 is no checkMate, 1 is WhiteKing is in checkmate, 2 is BlackKing is in checkmate
         //i need to generate a layer which has all of the possible moves of all the pieces
         playerInput pI = new playerInput();
-        int checkMate = 1;
-        if(store.currentWhitePiecesGet("king").size() == 0){
+        int checkMate = 1;  //assumes that there is not checkmate from the start
+
+        if(store.currentWhitePiecesGet("king").size() == 0){    //this is just checking that both of the kings are here, as there is not point if they arent on the board
             checkMate = 3;
             return checkMate;
         }
@@ -46,57 +48,23 @@ public class King extends Piece {
         }
         if(colour.equals("W")){
             //need to generate the black occupation layer as it is the white piece that is being activated, therefore their movement layer will be affected
-            String BK1position = store.currentPiecePositionsGet("BK1");
-            int BK1X = Integer.parseInt("" + BK1position.charAt(0));
-            int BK1Y = Integer.parseInt("" + BK1position.charAt(1));
-            //need to generate a layer map of the current king that is being used
-            String[][] kingLayer = layerSystemKing(array,BK1X, BK1Y, store);
-
-            System.out.println("The white kings current position is X:" + BK1X +" Y:" +BK1Y);
-            String[][] occupation = pI.boardOccupation(array, store, "B");
-            System.out.println("This is the current occupation layer for black:\n");
-            for (int i = 0; i < 8; i++) {
-                String line = "";
-                for (int a = 0; a < 8; a++) {
-                    line = line + " " + (occupation[i][a]);
-                }
-                System.out.println(line);
-            }
-            for (int i = 0; i < 8; i++) {       //all this is doing is checking if there is a checkmate, if there is then it ends the game
-                for (int a = 0; a < 8; a++) {
-                    if(kingLayer[i][a].equals("1") && occupation[i][a].equals("1")){
-                        kingLayer[i][a] = "0";
-                    }else if(kingLayer[i][a].equals("3") && occupation[i][a].equals("1")){
-                        kingLayer[i][a] = "0";
-                    }
-                    for (int b = 0; b < 8; b++) {
-                        for (int c = 0; c < 8; c++) {
-                            if(Integer.parseInt(kingLayer[b][c]) > 0 ){
-                                checkMate = 0;
-                            }
-                        }
-
-                    }
-                }
-            }
-
-        }else if(colour.equals("B")){
             String WK1position = store.currentPiecePositionsGet("WK1");
             int WK1X = Integer.parseInt("" + WK1position.charAt(0));
             int WK1Y = Integer.parseInt("" + WK1position.charAt(1));
-
+            //need to generate a layer map of the current king that is being used
             String[][] kingLayer = layerSystemKing(array,WK1X, WK1Y, store);
+            String[][] occupation = pI.boardOccupation(array, store, "B");
+            if(debugValue == 0) {
+                System.out.println("The white king current position is X:" + WK1X + " Y:" + WK1Y);
+                System.out.println("This is the current occupation layer for black:\n");
 
-
-            System.out.println("The white kings current position is X:" + WK1X +" Y:" +WK1Y);
-            String[][] occupation = pI.boardOccupation(array, store, "W");
-            System.out.println("This is the current occupation layer for white:\n");
-            for (int i = 0; i < 8; i++) {
-                String line = "";
-                for (int a = 0; a < 8; a++) {
-                    line = line + " " + (occupation[i][a]);
+                for (int i = 0; i < 8; i++) {
+                    String line = "";
+                    for (int a = 0; a < 8; a++) {
+                        line = line + " " + (occupation[i][a]);
+                    }
+                    System.out.println(line);
                 }
-                System.out.println(line);
             }
             for (int i = 0; i < 8; i++) {       //all this is doing is checking if there is a checkmate, if there is then it ends the game
                 for (int a = 0; a < 8; a++) {
@@ -107,7 +75,51 @@ public class King extends Piece {
                     }
                     for (int b = 0; b < 8; b++) {
                         for (int c = 0; c < 8; c++) {
-                            if(Integer.parseInt(kingLayer[b][c]) > 0 ){
+                            if(Integer.parseInt(kingLayer[b][c]) > 0  ){
+                                checkMate = 0;  //this is a value that is returned. It tells the system after what sort of checkmate it is.
+                            }
+                        }
+
+                    }
+                }
+            }
+            System.out.println("After the occupation layer has been compared to the kings movements, this is the possible moves for the white king\n");
+            for (int i = 0; i < 8; i++) {
+                String line = "";
+                for (int a = 0; a < 8; a++) {
+                    line = line + " " + (kingLayer[i][a]);
+                }
+                System.out.println(line);
+            }
+        }else if(colour.equals("B")){
+            String BK1position = store.currentPiecePositionsGet("BK1");
+            int BK1X = Integer.parseInt("" + BK1position.charAt(0));
+            int BK1Y = Integer.parseInt("" + BK1position.charAt(1));
+
+            String[][] kingLayer = layerSystemKing(array,BK1X, BK1Y, store);
+            String[][] occupation = pI.boardOccupation(array, store, "W");
+            if(debugValue == 0) {
+                System.out.println("The black kings current position is X:" + BK1X + " Y:" + BK1Y);
+
+                System.out.println("This is the current occupation layer for white:\n");
+                for (int i = 0; i < 8; i++) {
+                    String line = "";
+                    for (int a = 0; a < 8; a++) {
+                        line = line + " " + (occupation[i][a]);
+                    }
+                    System.out.println(line);
+                }
+            }
+            for (int i = 0; i < 8; i++) {       //all this is doing is checking if there is a checkmate, if there is then it ends the game
+                for (int a = 0; a < 8; a++) {
+                    if(kingLayer[i][a].equals("1") && occupation[i][a].equals("1")){
+                        kingLayer[i][a] = "0";
+                    }else if(kingLayer[i][a].equals("3") && occupation[i][a].equals("1")){
+                        kingLayer[i][a] = "0";
+                    }
+                    for (int b = 0; b < 8; b++) {
+                        for (int c = 0; c < 8; c++) {
+                            if(Integer.parseInt(kingLayer[b][c]) > 0){
                                 checkMate = 0;
                             }
                         }
@@ -115,8 +127,16 @@ public class King extends Piece {
                     }
                 }
             }
-
+            System.out.println("After the occupation layer has been compared to the kings movements, this is the possible moves for the black king\n");
+            for (int i = 0; i < 8; i++) {
+                String line = "";
+                for (int a = 0; a < 8; a++) {
+                    line = line + " " + (kingLayer[i][a]);
+                }
+                System.out.println(line);
+            }
         }
+
 
         return checkMate;
     }
@@ -169,7 +189,6 @@ public class King extends Piece {
             }
         }
         kingLayer[StartX][StartY] = "3";
-
 
         if(store.debugGet() == 1) {
             for (int i = 0; i < 8; i++) {

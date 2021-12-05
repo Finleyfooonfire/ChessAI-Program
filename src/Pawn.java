@@ -2,22 +2,31 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece{
     public String[][] pawnMain(String[][] array, int StartX , int StartY, Storage store){
-        System.out.println("The pawn layer has been activated");
+        int debugValue = store.debugGet();
+        if(debugValue == 1) {
+            System.out.println("The pawn layer has been activated");
+        }
         String firstHalf = array[StartX][StartY].substring(0,2);
         String[][] boardOutput = null;
 
         if(firstHalf.equals("WP")){         //remember that only pawns can be passed please, you absolute pillock
-            System.out.println("A white pawn movement layer is being generated..");
+            if(debugValue == 1) {
+                System.out.println("A white pawn movement layer is being generated..");
+            }
             boardOutput = layerSystemPawn(array, StartX, StartY, store);
             return boardOutput;
 
         } else if (firstHalf.equals("BP")){
-            System.out.println("A black pawn movement layer is being generated..");
+            if(debugValue == 1) {
+                System.out.println("A black pawn movement layer is being generated..");
+            }
             //System.out.println("Enemy pawn here");
             boardOutput = layerSystemPawn(array, StartX, StartY, store);
             return boardOutput;
         }else {
-            System.out.println("There was no pawn at the activated location of X:" + StartX + " Y:" + StartY +" with the attempted piece being " + array[StartX][StartY]);
+            if(debugValue == 1) {
+                System.out.println("There was no pawn at the activated location of X:" + StartX + " Y:" + StartY + " with the attempted piece being " + array[StartX][StartY]);
+            }
             return boardOutput;
         }
     }

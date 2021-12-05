@@ -32,6 +32,7 @@ public class Main {
             }
             System.out.println(line);
         }
+
         boolean gameRunning = true;
         while (gameRunning){
             Scanner sc = new Scanner(System.in);
@@ -39,7 +40,7 @@ public class Main {
             String input = sc.nextLine();
             if (input.equals("random")) {
                 String colour = "W";
-                for (int b = 0; b < 100; b++) {
+                for (int b = 0; b < 10; b++) {
                     System.out.println("On the " + b+ "th iteration of random moves");
                     if (colour.equals("W")) {
                         System.out.println("It is whites move now");
@@ -47,7 +48,11 @@ public class Main {
                         for (int i = 0; i < 8; i++) {
                             String line = "";
                             for (int a = 0; a < 8; a++) {
-                                line = line + " " + (board[i][a]);
+                                if(board[i][a].equals("E")){
+                                    line = line + "   " + (board[i][a]);
+                                }else{
+                                    line = line + " " + (board[i][a]);
+                                }
                             }
                             System.out.println(line);
                         }
@@ -59,11 +64,11 @@ public class Main {
                             }
                             case 3 -> {
                                 System.out.println("Black has won the game, congratulations");
-                                gameRunning = false;
+                                System.exit(0);
                             }
                             case 4 -> {
                                 System.out.println("White has won the game, congratulations");
-                                gameRunning = false;
+                                System.exit(0);
                             }
                         }
 
@@ -74,13 +79,15 @@ public class Main {
                     } else if (colour.equals("B")) {
                         board = randomPart(board, store, colour);
 
-
-
-                        System.out.println("i got here");
                         for (int i = 0; i < 8; i++) {
                             String line = "";
                             for (int a = 0; a < 8; a++) {
-                                line = line + " " + (board[i][a]);
+                                if(board[i][a].equals("E")){
+                                    line = line + "   " + (board[i][a]);
+                                }else{
+                                    line = line + " " + (board[i][a]);
+                                }
+
                             }
                             System.out.println(line);
                         }
@@ -105,7 +112,8 @@ public class Main {
 
                     }
                 }
-            } else if (input.equals("test")) {
+            } else if (input.equals("AI")) {
+                AI.thinking(board, store, "W");
 
 
                 String[][] movementLayerOutput = queen.queenMain(board, 0, 4, store);

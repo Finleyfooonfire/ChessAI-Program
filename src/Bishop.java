@@ -1,6 +1,9 @@
 public class Bishop extends Piece {
     public String[][] bishopMain(String[][] array, int StartX , int StartY, Storage store){
-        System.out.println("The bishop layer has been activated");
+        int debugValue = store.debugGet();
+        if(debugValue == 1) {
+            System.out.println("The bishop layer has been activated");
+        }
         String firstHalf = array[StartX][StartY].substring(0,2);
         String[][] boardOutput = null;
         if(firstHalf.equals("WB")){         //remember that only pawns can be passed please, you absolute pillock

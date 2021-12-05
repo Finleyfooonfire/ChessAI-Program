@@ -22,14 +22,14 @@ public class Storage {
         ArrayList<String> amountOfBlackKing = new ArrayList<>(Arrays.asList("BK1"));
 
 
-    int debug = 1;
+    int debug = 0;
 
-    int castlePieceScore = 0;
-    int pawnPieceScore = 0;
-    int bishopPieceScore= 0;
-    int horsePieceScore = 0;
-    int queenPieceScore = 0;
-    int kingPieceScore = 0;
+    int castlePieceScore = 4;
+    int pawnPieceScore = 1;
+    int bishopPieceScore= 5;
+    int horsePieceScore = 6;
+    int queenPieceScore = 10;
+    int kingPieceScore = 10000;
 
 
     int currentAvailableMovesCastle = 0;

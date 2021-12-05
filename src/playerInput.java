@@ -4,6 +4,17 @@ import java.util.Scanner;
 
 public class playerInput {
 
+    public static void layerOutput(String[][] layer){
+        for (int i = 0; i < 8; i++) {
+            String line = "";
+            for (int a = 0; a < 8; a++) {
+                line = line + " " + (layer[i][a]);
+            }
+            System.out.println(line);
+        }
+    }
+
+
     public String inputTranslator(String coordinate){   //this is translating the inputs that are being made
         String converted = "";
         if(Character.isDigit(coordinate.charAt(0))) {
@@ -62,6 +73,18 @@ public class playerInput {
         return (playerInput);
     }
     public static String[][] boardOccupation(String[][] array, Storage store, String colour){
+        String [][] empty = {     //this is used to save the space occupations
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+                {"0","0","0","0","0","0","0","0"},
+        };
+        store.setSpaceOccupation(empty);
+
         String[][] spaceOccupation = store.getSpaceOccupation();
         playerInput pI = new playerInput();
         ArrayList<String> allPiecesWhite = new ArrayList<>();
@@ -72,8 +95,6 @@ public class playerInput {
         allPiecesWhite.addAll(store.currentWhitePiecesGet("king"));
         allPiecesWhite.addAll(store.currentWhitePiecesGet("bishop"));
         allPiecesWhite.addAll(store.currentWhitePiecesGet("castle"));
-
-        String [] blackPieces = {"BC1","BC2","BP1","BP2","BP3","BP4","BP5","BP6","BP7","BP8","BB1","BB2","BH1","BH2","BQ1","BK1"};
 
         ArrayList<String> allPiecesBlack = new ArrayList<>();
         //this is adding all the black pieces so it can cycle through
@@ -121,7 +142,7 @@ public class playerInput {
 
             }
             store.setSpaceOccupation(spaceOccupation);
-
+            return spaceOccupation;
             //this is the same as above but it is for white instead
         }else if(colour.equals("B")){
             for (int i = 0; i < allPiecesBlack.size(); i++) {
@@ -166,7 +187,10 @@ public class playerInput {
     }
 
     public String[][] getLayerMap(String piece, String[][] array, Storage store){
-        System.out.println("The getLayerMap method has been called");
+        int debugValue = store.debugGet();
+        if(debugValue == 1) {
+            System.out.println("The getLayerMap method has been called");
+        }
         Horse horse = new Horse();
         King king = new King();
         Queen queen = new Queen();
@@ -186,8 +210,10 @@ public class playerInput {
         String position = store.currentPiecePositionsGet(piece);
         int coordinateX = Integer.parseInt(""+position.charAt(0));
         int coordinateY = Integer.parseInt(""+position.charAt(1));
-        System.out.println("The layer map for "+piece+" is being generated");
-        System.out.println("This piece's coordinates are X:"+coordinateX+" Y:"+coordinateY);
+        if(debugValue == 1) {
+            System.out.println("The layer map for " + piece + " is being generated");
+            System.out.println("This piece's coordinates are X:" + coordinateX + " Y:" + coordinateY);
+        }
 
 
         String[][] layer = null;
@@ -199,14 +225,16 @@ public class playerInput {
             case "king" -> layer = king.kingMain(array, coordinateX, coordinateY, store);
             case "horse" -> layer = horse.horseMain(array, coordinateX, coordinateY, store);
         }
-        System.out.println("The activated movement system from getting the LayerMap is " +type);
-        System.out.println("Their layer map is:\n");
-        for (int i = 0; i < 8; i++) {
-            String line = "";
-            for (int a = 0; a < 8; a++) {
-                line = line + " " + (layer[i][a]);
+        if(debugValue == 1) {
+            System.out.println("The activated movement system from getting the LayerMap is " + type);
+            System.out.println("Their layer map is:\n");
+            for (int i = 0; i < 8; i++) {
+                String line = "";
+                for (int a = 0; a < 8; a++) {
+                    line = line + " " + (layer[i][a]);
+                }
+                System.out.println(line);
             }
-            System.out.println(line);
         }
 
         store.currentAvailableMovesSet("king", 0);   //this is needed, this caused me so much pain
