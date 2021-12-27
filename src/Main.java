@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
@@ -13,6 +14,7 @@ public class Main {
         Castle castle = new Castle();
         Pawn pawn = new Pawn();
         Storage store = new Storage();  //Making the main storage class
+        gui gi = new gui();
 
         //this is making sure that all the arrays are initilised from the storage class
         String[][] board = {
@@ -115,8 +117,13 @@ public class Main {
             } else if (input.equals("AI")) {
                 AI.thinking(board, store, "W");
 
+                try {
+                    gui.render();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                String[][] movementLayerOutput = queen.queenMain(board, 0, 4, store);
+
             } else if (input.equals("random person")) {        //this is the part that will just simulate random move with player input
                 playerInput player = new playerInput();
                 String colour = "W";

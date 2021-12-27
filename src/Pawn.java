@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Pawn extends Piece{
+public class Pawn{
     public String[][] pawnMain(String[][] array, int StartX , int StartY, Storage store){
         int debugValue = store.debugGet();
         if(debugValue == 1) {

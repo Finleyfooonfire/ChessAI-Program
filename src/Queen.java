@@ -1,6 +1,6 @@
 import javax.sql.rowset.FilteredRowSet;
 
-public class Queen extends Piece {
+public class Queen{
     public String[][] queenMain(String[][] array, int StartX, int StartY, Storage store){
         int debugValue = store.debugGet();
         if(debugValue == 1) {

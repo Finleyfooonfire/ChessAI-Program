@@ -42,7 +42,10 @@ public class AI {
                             }
                         }
                     }
-                    moves.add(moveDetails);
+                    if(!moveDetails.isEmpty()){
+                        moves.add(moveDetails);
+                    }
+
                 }
                 System.out.println(moves);
 

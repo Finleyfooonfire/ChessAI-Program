@@ -1,4 +1,4 @@
-public class Bishop extends Piece {
+public class Bishop{
     public String[][] bishopMain(String[][] array, int StartX , int StartY, Storage store){
         int debugValue = store.debugGet();
         if(debugValue == 1) {

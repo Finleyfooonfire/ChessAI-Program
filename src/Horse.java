@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-public class Horse extends Piece {
+public class Horse{
 
     public String[][] horseMain(String[][] array, int StartX , int StartY, Storage store){
         int debugValue = store.debugGet();

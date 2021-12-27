@@ -1,4 +1,4 @@
-public class Castle extends Piece{
+public class Castle{
     public String[][] castleMain(String[][] array, int StartX, int StartY, Storage store){
         int debugValue = store.debugGet();
         if(debugValue == 1) {

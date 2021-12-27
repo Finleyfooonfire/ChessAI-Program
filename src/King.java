@@ -1,4 +1,4 @@
-public class King extends Piece {
+public class King{
     public String[][] kingMain(String[][] array, int StartX, int StartY, Storage store){
         System.out.println("The king layer has been activated");
         String firstHalf = array[StartX][StartY].substring(0,2);
