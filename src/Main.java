@@ -1,11 +1,15 @@
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 public class Main {
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
         //All of the constructors
         Horse horse = new Horse();
         King king = new King();
@@ -36,17 +40,28 @@ public class Main {
         }
 
         boolean gameRunning = true;
+
         while (gameRunning){
             Scanner sc = new Scanner(System.in);
             System.out.println("Please state what you want to do:");
             String input = sc.nextLine();
             if (input.equals("random")) {
                 String colour = "W";
-                for (int b = 0; b < 10; b++) {
+                gui.render(store, board);
+                for (int b = 0; b < 100; b++) {
+
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     System.out.println("On the " + b+ "th iteration of random moves");
                     if (colour.equals("W")) {
                         System.out.println("It is whites move now");
                         board = randomPart(board, store, colour);
+
+
                         for (int i = 0; i < 8; i++) {
                             String line = "";
                             for (int a = 0; a < 8; a++) {
@@ -62,15 +77,15 @@ public class Main {
                         switch (isThereCheck) {
                             case 1 -> {
                                 System.out.println("There was checkmate, thank you for playing");
-                                System.exit(0);
+                                //System.exit(0);
                             }
                             case 3 -> {
                                 System.out.println("Black has won the game, congratulations");
-                                System.exit(0);
+                                //System.exit(0);
                             }
                             case 4 -> {
                                 System.out.println("White has won the game, congratulations");
-                                System.exit(0);
+                                //System.exit(0);
                             }
                         }
 
@@ -113,24 +128,34 @@ public class Main {
                         System.out.println("Move completed");
 
                     }
+                    gui.repaint(store); //repaints the GUI
                 }
+
+
             } else if (input.equals("AI")) {
                 AI.thinking(board, store, "W");
 
                 try {
-                    gui.render();
+                    gui.render(store, board);
+                    System.out.println("This is the position: " + store.currentPiecePositionsGet("WP1"));
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
 
 
             } else if (input.equals("random person")) {        //this is the part that will just simulate random move with player input
                 playerInput player = new playerInput();
                 String colour = "W";
                 int times = 0;
+                gui.render(store, board);
+
+
                 while (times < 100) {
                     if (colour.equals("B")) {
-
+                        gui.render(store, board);
                         randomPart(board, store, colour);//makes a random move for black
                         System.out.println("\n\n");
                         for (int i = 0; i < 8; i++) {
@@ -210,13 +235,14 @@ public class Main {
     //this is a method that will generate a map of all of the free spaces on the board.
 
 
-    public static String[][] randomPart(String[][] board, Storage storage, String colour){  //this is a fully working, fully validated random move picker, i am proud of my baby
+    public static String[][] randomPart(String[][] board, Storage storage, String colour) throws IOException {  //this is a fully working, fully validated random move picker, i am proud of my baby
         Horse horse = new Horse();
         King king = new King();
         Queen queen = new Queen();
         Bishop bishop = new Bishop();
         Castle castle = new Castle();
         Pawn pawn = new Pawn();
+
         int whichTurn = 0;   //This is a variable that is going to be a flip flop, it is going to keep track of whose turn it is
         Random random = new Random();
         int times = 0;

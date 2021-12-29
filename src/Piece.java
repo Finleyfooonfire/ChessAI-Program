@@ -25,14 +25,18 @@ public class Piece {
         ps.add(this);
     }
 
-    public void move(int xp, int yp){
+    public String pieceDetails(){
+        return(gui.getPiece(xp*64, yp*64).name + ","+xp+","+yp);
+    }
+
+    public String move(int xp, int yp){
         if(gui.getPiece(xp*64, yp*64)!=null){
             if(gui.getPiece(xp*64, yp*64).isWhite!=isWhite){
-                gui.getPiece(xp*64,yp*64).kill();
+                gui.getPiece(xp*64,yp*64).kill();       //kills the piece if there is already something there
             }else{
                 x=this.xp*64;
                 y=this.yp*64;
-                return;
+                return "";
             }
 
 
@@ -42,9 +46,9 @@ public class Piece {
         this.yp=yp;
         x=xp*64;
         y=yp*64;
-        System.out.println(gui.getPiece(xp*64, yp*64).name);
-        System.out.println("X: "+xp);
-        System.out.println("Y: "+yp);
+
+
+        return(gui.getPiece(xp*64, yp*64).name + ","+xp+","+yp);
     }
     public void kill(){
         ps.remove(this);
