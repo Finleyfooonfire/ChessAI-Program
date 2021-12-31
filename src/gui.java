@@ -365,6 +365,7 @@ public class gui {
                     System.out.println("X: " + xCord);
                     System.out.println("X: " + yCord);
                     pieceToMove = newBoard[yCord][xCord];
+                    store.previousPosition = "" + yCord + xCord; //updating the piece that is moving and where it moved from
 
 
 
@@ -379,9 +380,12 @@ public class gui {
                 String pieceName = parts[0];
                 pieceToMoveX = Integer.parseInt(parts[1]);
                 pieceToMoveY = Integer.parseInt(parts[2]);
+                store.currentPosition = "" + pieceToMoveY + pieceToMoveX; //updating the current position
                 frame.repaint();
                 //this is the only indication that a move has happened
                 System.out.println("This happens");
+                store.inputRecieved = 1;    //meaning there is input that has been recieved
+
 
 
             }

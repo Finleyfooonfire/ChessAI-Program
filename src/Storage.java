@@ -82,6 +82,14 @@ public class Storage {
     String currentPositionOfBQ1 = "74";
     String currentPositionOfBK1 = "73";
 
+    Boolean randomPersonActive= false;
+    int inputRecieved = 0;
+
+    //this is now the stuff for previous and changing moves
+    String previousPosition = "00";
+    String currentPosition = "00";
+
+
     //this is going to be the lists that have the pawns which have not moved
 
     ArrayList<String> pawnsNotMoved = new ArrayList<>(Arrays.asList("BP1","BP2","BP3","BP4","BP5","BP6","BP7","BP8","WP1","WP2","WP3","WP4","WP5","WP6","WP7","WP8"));

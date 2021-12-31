@@ -145,17 +145,55 @@ public class Main {
                 }
 
 
+            }else if(input.equals("random person")){
+                gui.render(store, board);
+                store.randomPersonActive = true;
+                String colour = "W";
+                while(true){
+                    try {       //needs to wait otherwise it doesnt work
+                        TimeUnit.MILLISECONDS.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-            } else if (input.equals("random person")) {        //this is the part that will just simulate random move with player input
+                    if(colour.equals("W")){
+                        if(store.inputRecieved == 1){
+                            store.inputRecieved = 0;
+                            colour = "B";
+
+
+                            //need to now validate the moves
+                            String currentPosition = store.currentPosition;
+                            int currentPositionX = Integer.parseInt("" + currentPosition.charAt(0));
+                            int currentPositionY = Integer.parseInt("" + currentPosition.charAt(1));
+
+                            String previousPosition = store.previousPosition;
+                            int previousPositionX = Integer.parseInt("" + previousPosition.charAt(0));
+                            int previousPositionY = Integer.parseInt("" + previousPosition.charAt(1));
+
+                            String pieceName = board[previousPositionX][previousPositionY];
+                            board[previousPositionX][previousPositionY] = "E";
+                            board[currentPositionX][currentPositionY] = pieceName;
+
+                            store.currentPiecePositionsSet(pieceName, currentPosition);
+                            gui.repaint(store);
+                        }
+
+                    }else if(colour.equals("B")){
+                        randomPart(board, store, colour);
+                        gui.repaint(store);     //repaints the GUI
+                        colour = "W";
+                    }
+                }
+
+            } else if (input.equals("random person console")) {        //this is the part that will just simulate random move with player input
                 playerInput player = new playerInput();
                 String colour = "W";
                 int times = 0;
                 gui.render(store, board);
 
-
                 while (times < 100) {
                     if (colour.equals("B")) {
-                        gui.render(store, board);
                         randomPart(board, store, colour);//makes a random move for black
                         System.out.println("\n\n");
                         for (int i = 0; i < 8; i++) {
@@ -165,7 +203,7 @@ public class Main {
                             }
                             System.out.println(line);
                         }
-
+                        gui.repaint(store);
                         colour = "W";
                     } else if (colour.equals("W")) {     //to make life eaiser the player is always going to be white, they wont have an option
                         Scanner scan = new Scanner(System.in);
@@ -221,7 +259,7 @@ public class Main {
                         int initialMoveX = Integer.parseInt("" + initialMove.charAt(0));    //this is seperating it into seperate parts
                         int initialMoveY = Integer.parseInt("" + initialMove.charAt(1));
                         player.playerMove(board, store, colour, initialMoveX, initialMoveY, coordinateX, coordinateY, moveType);  //this is what deals with the user input and changing the values
-
+                        gui.repaint(store);
                         colour = "B";
                     }
                 }
