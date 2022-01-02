@@ -374,17 +374,34 @@ public class gui {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                String moved = selectedPiece.move(e.getX() / 64, e.getY() / 64);
-                System.out.println(moved);
-                String[] parts = moved.split(",");
-                String pieceName = parts[0];
-                pieceToMoveX = Integer.parseInt(parts[1]);
-                pieceToMoveY = Integer.parseInt(parts[2]);
-                store.currentPosition = "" + pieceToMoveY + pieceToMoveX; //updating the current position
-                frame.repaint();
-                //this is the only indication that a move has happened
-                System.out.println("This happens");
-                store.inputRecieved = 1;    //meaning there is input that has been recieved
+                playerInput pI = new playerInput();
+                //This is the limits of the move. It is going to make sure it can only be put on a certain space
+                String[][] layerMap = pI.getLayerMap(pieceToMove,board, store);
+                int validMove = 0;
+                for(int i = 0; i < 8; i++){
+                    for(int a = 0; a < 8; a++){
+                        String move = layerMap[i][a];
+                        String positionAttempt = layerMap[e.getY() / 64][e.getX() / 64];
+                        if(move.equals(positionAttempt) && move.equals("1") || move.equals("2")){       //this checks
+                            validMove = 1;
+                        }
+                    }
+                }
+                if(validMove == 1) {
+                    String moved = selectedPiece.move(e.getX() / 64, e.getY() / 64);
+                    System.out.println(moved);
+                    String[] parts = moved.split(",");
+                    if (parts.length > 1) {
+                        pieceToMoveX = Integer.parseInt(parts[1]);
+                        pieceToMoveY = Integer.parseInt(parts[2]);
+                        store.currentPosition = "" + pieceToMoveY + pieceToMoveX; //updating the current position
+                        frame.repaint();
+                        //this is the only indication that a move has happened
+                        System.out.println("This happens");
+                        store.inputRecieved = 1;    //meaning there is input that has been recieved
+                    }
+                }
+
 
 
 
