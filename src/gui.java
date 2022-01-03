@@ -53,9 +53,10 @@ public class gui {
     public static Piece WP8=new Piece(0, 1, true, "pawn", ps);
     public static JFrame frame = new JFrame();
 
+    public static String[][] mapUpdater;
+    public static boolean mapUpdaterActive;
+
     public static void repaint(Storage store){
-
-
         int x;
         int y;
         String moves;
@@ -269,8 +270,7 @@ public class gui {
         if(store.amountOfBlackPawn.contains("BP8")) {
             BP8.move(y, x);
         }
-
-        frame.repaint();
+        frame.repaint();    //updates teh whole thing
     }
 
 
@@ -314,6 +314,35 @@ public class gui {
                     }
                     white=!white;
                 }
+                if(mapUpdaterActive){
+                    for (int y = 0; y < 8; y++) {
+                        for (int x = 0; x < 8; x++) {
+                            if(mapUpdater[y][x].equals("1")){
+                                int thing = x +y;
+                                if(thing % 2 == 0){
+                                    g.setColor(new Color(235, 235, 208).darker());
+                                }else{
+                                    g.setColor(new Color(119, 148, 85).darker());
+                                }
+                                g.fillRect(x*64,y*64, 64, 64);
+                            }else if(mapUpdater[y][x].equals("2")){
+                                int thing = x +y;
+                                if(thing % 2 == 0){
+                                    g.setColor(new Color(235, 235, 208).darker());
+                                }else{
+                                    g.setColor(new Color(119, 148, 85).darker());
+                                }
+                                g.fillRect(x*64,y*64, 64, 64);
+                            }else if(mapUpdater[y][x].equals("3")){
+                                int thing = x +y;
+                                g.setColor(new Color(255, 170, 164));
+                                g.fillRect(x*64,y*64, 64, 64);
+                            }
+
+                            }
+                        }
+                }
+
                     for(Piece p: ps){   //this is indexing all of the pieces
                         int ind = 0;
                         if(p.name.equalsIgnoreCase("king")){
@@ -367,8 +396,6 @@ public class gui {
                     pieceToMove = newBoard[yCord][xCord];
                     store.previousPosition = "" + yCord + xCord; //updating the piece that is moving and where it moved from
 
-
-
                 }
             }
 
@@ -387,6 +414,7 @@ public class gui {
                         }
                     }
                 }
+
                 if(validMove == 1) {
                     String moved = selectedPiece.move(e.getX() / 64, e.getY() / 64);
                     System.out.println(moved);
@@ -399,9 +427,12 @@ public class gui {
                         //this is the only indication that a move has happened
                         System.out.println("This happens");
                         store.inputRecieved = 1;    //meaning there is input that has been recieved
+                        if((pieceToMove.charAt(1)) == 'P'){
+                            store.pawnsNotMoved.remove(pieceToMove);
+                        }
                     }
                 }
-
+                mapUpdaterActive = false;
 
 
 
@@ -424,6 +455,9 @@ public class gui {
                     selectedPiece.x=e.getX()-32;
                     selectedPiece.y=e.getY()-32;
                     frame.repaint();
+                    playerInput pI = new playerInput();
+                    mapUpdater = pI.getLayerMap(pieceToMove, board, store);
+                    mapUpdaterActive = true;
 
                 }
             }
