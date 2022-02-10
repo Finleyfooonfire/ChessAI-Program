@@ -89,6 +89,8 @@ public class Storage {
     String previousPosition = "00";
     String currentPosition = "00";
 
+    boolean currentlyProcessing = true;
+
 
     //this is going to be the lists that have the pawns which have not moved
 

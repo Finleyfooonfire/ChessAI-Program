@@ -21,8 +21,8 @@ public class gui {
     public static Piece BC1=new Piece(0, 7, false, "castle", ps);
     public static Piece BH1=new Piece(1, 7, false, "horse", ps);
     public static Piece BB1=new Piece(2, 7, false, "bishop", ps);
-    public static Piece BQ1=new Piece(3, 7, false, "queen", ps);
-    public static Piece BK1=new Piece(4, 7, false, "king", ps);
+    public static Piece BQ1=new Piece(4, 7, false, "queen", ps);
+    public static Piece BK1=new Piece(3, 7, false, "king", ps);
     public static Piece BB2=new Piece(5, 7, false, "bishop", ps);
     public static Piece BH2=new Piece(6, 7, false, "horse", ps);
     public static Piece BC2=new Piece(7, 7, false, "castle", ps);
@@ -38,8 +38,8 @@ public class gui {
     public static Piece WC1=new Piece(0, 0, true, "castle", ps);
     public static Piece WH1=new Piece(1, 0, true, "horse", ps);
     public static Piece WB1=new Piece(2, 0, true, "bishop", ps);
-    public static Piece WQ1=new Piece(3, 0, true, "queen", ps);
-    public static Piece WK1=new Piece(4, 0, true, "king", ps);
+    public static Piece WQ1=new Piece(4, 0, true, "queen", ps);
+    public static Piece WK1=new Piece(3, 0, true, "king", ps);
     public static Piece WB2=new Piece(5, 0, true, "bishop", ps);
     public static Piece WH2=new Piece(6, 0, true, "horse", ps);
     public static Piece WC2=new Piece(7, 0, true, "castle", ps);
@@ -384,7 +384,7 @@ public class gui {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if(getPiece(e.getX(), e.getY()) != null && Objects.requireNonNull(getPiece(e.getX(), e.getY())).isWhite) {
+                if(getPiece(e.getX(), e.getY()) != null && Objects.requireNonNull(getPiece(e.getX(), e.getY())).isWhite  && store.currentlyProcessing) {
                     selectedPiece = Objects.requireNonNull(getPiece(e.getX(), e.getY()));       //this is responsible for getting the piece you just clicked
                     String details = selectedPiece.pieceDetails();     //this just pulls the piece details
                     String[] parts = details.split(",");
@@ -431,7 +431,10 @@ public class gui {
                             store.pawnsNotMoved.remove(pieceToMove);
                         }
                     }
+                }else{
+                    repaint(store);
                 }
+
                 mapUpdaterActive = false;
 
 
@@ -451,7 +454,7 @@ public class gui {
         frame.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if(selectedPiece!=null){
+                if(selectedPiece!=null  && store.currentlyProcessing){
                     selectedPiece.x=e.getX()-32;
                     selectedPiece.y=e.getY()-32;
                     frame.repaint();

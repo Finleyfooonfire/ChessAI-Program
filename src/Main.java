@@ -133,18 +133,151 @@ public class Main {
 
 
             } else if (input.equals("AI")) {
-                AI.thinking(board, store, "W");
+                gui.render(store, board);
+                store.randomPersonActive = true;
+                String colour = "W";
+                while(gameRunning){
+                    try {       //needs to wait otherwise it doesnt work. Its like it makes the program stop and think. I like it
+                        TimeUnit.MILLISECONDS.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-                try {
-                    gui.render(store, board);
-                    System.out.println("This is the position: " + store.currentPiecePositionsGet("WP1"));
+                    if(colour.equals("W")){
+                        if(store.inputRecieved == 1){
+                            store.inputRecieved = 0;
+                            colour = "B";
+                            //need to now validate the moves
+                            String currentPosition = store.currentPosition;
+                            int currentPositionX = Integer.parseInt("" + currentPosition.charAt(0));
+                            int currentPositionY = Integer.parseInt("" + currentPosition.charAt(1));
+                            String previousPosition = store.previousPosition;
+                            int previousPositionX = Integer.parseInt("" + previousPosition.charAt(0));
+                            int previousPositionY = Integer.parseInt("" + previousPosition.charAt(1));
+                            String pieceOnMove = board[currentPositionX][currentPositionY];
 
+                            if(!pieceOnMove.equals("E")){
+                                String pieceType =  "" + pieceOnMove.charAt(1);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                                switch (pieceType){
+                                    case("B") -> {
+                                        store.amountOfBlackBishop.remove(pieceOnMove);
+                                    }case("Q") ->{
+                                        store.amountOfBlackQueen.remove(pieceOnMove);
+                                    }case("K") ->{
+                                        store.amountOfBlackKing.remove(pieceOnMove);
+                                    }case("P") ->{
+                                        store.amountOfBlackPawn.remove(pieceOnMove);
+                                    }case("H") ->{
+                                        store.amountOfBlackHorse.remove(pieceOnMove);
+                                    }case("C") ->{
+                                        store.amountOfBlackCastle.remove(pieceOnMove);
+                                    }
+                                }
+                                String pieceName = board[previousPositionX][previousPositionY];
+                                board[previousPositionX][previousPositionY] = "E";
+                                board[currentPositionX][currentPositionY] = pieceName;
+                                store.currentPiecePositionsSet(pieceName, currentPosition);
+                                gui.repaint(store);
+                            }else{
+                                String pieceName = board[previousPositionX][previousPositionY];
+                                board[previousPositionX][previousPositionY] = "E";
+                                board[currentPositionX][currentPositionY] = pieceName;
+
+                                store.currentPiecePositionsSet(pieceName, currentPosition);
+                                gui.repaint(store);
+                            }
+                        }
+
+                    }else if(colour.equals("B")){
+                        store.currentlyProcessing = false;
+                        AI.thinking(board, store, colour);
+                        gui.repaint(store);     //repaints the GUI
+
+                        colour = "W";
+                        //checkmate checker
+                        int isThereCheck = King.checkMateChecker(board,store, colour);
+                        switch (isThereCheck) {
+                            case 1 -> {
+                                System.out.println("There was checkmate, thank you for playing");
+                                gameRunning = false;
+                            }
+                            case 3 -> {
+                                System.out.println("Black has won the game, congratulations");
+                                gameRunning = false;
+                            }
+                            case 4 -> {
+                                System.out.println("White has won the game, congratulations");
+                                gameRunning = false;
+                            }
+                        }
+                    }
+                    store.currentlyProcessing = true;
+
                 }
 
+            }else if(input.equals("mu")){
+                store.randomPersonActive = true;
+                gui.render(store, board);
+                while(gameRunning) {
+                    if (store.inputRecieved == 1) {
+                        store.inputRecieved = 0;
+                        store.currentlyProcessing = true;
+                        String currentPosition = store.currentPosition;
+                        int currentPositionX = Integer.parseInt("" + currentPosition.charAt(0));
+                        int currentPositionY = Integer.parseInt("" + currentPosition.charAt(1));
+                        String previousPosition = store.previousPosition;
+                        int previousPositionX = Integer.parseInt("" + previousPosition.charAt(0));
+                        int previousPositionY = Integer.parseInt("" + previousPosition.charAt(1));
+                        String pieceOnMove = board[currentPositionX][currentPositionY];
+                        if (!pieceOnMove.equals("E")) {
+                            String pieceType = "" + pieceOnMove.charAt(1);
 
+                            switch (pieceType) {
+                                case ("B") -> {
+                                    store.amountOfBlackBishop.remove(pieceOnMove);
+                                }
+                                case ("Q") -> {
+                                    store.amountOfBlackQueen.remove(pieceOnMove);
+                                }
+                                case ("K") -> {
+                                    store.amountOfBlackKing.remove(pieceOnMove);
+                                }
+                                case ("P") -> {
+                                    store.amountOfBlackPawn.remove(pieceOnMove);
+                                }
+                                case ("H") -> {
+                                    store.amountOfBlackHorse.remove(pieceOnMove);
+                                }
+                                case ("C") -> {
+                                    store.amountOfBlackCastle.remove(pieceOnMove);
+                                }
+                            }
+                            String pieceName = board[previousPositionX][previousPositionY];
+                            board[previousPositionX][previousPositionY] = "E";
+                            board[currentPositionX][currentPositionY] = pieceName;
+                            store.currentPiecePositionsSet(pieceName, currentPosition);
+                        } else {
+                            String pieceName = board[previousPositionX][previousPositionY];
+                            board[previousPositionX][previousPositionY] = "E";
+                            board[currentPositionX][currentPositionY] = pieceName;
+
+                            store.currentPiecePositionsSet(pieceName, currentPosition);
+
+                        }
+                    }
+                }
+                for (int i = 0; i < 8; i++) {
+                    String line = "";
+                    for (int a = 0; a < 8; a++) {
+                        if(board[i][a].equals("E")){
+                            line = line + "   " + (board[i][a]);
+                        }else{
+                            line = line + " " + (board[i][a]);
+                        }
+                    }
+                    System.out.println(line);
+                }
             }else if(input.equals("random person")){
                 gui.render(store, board);
                 store.randomPersonActive = true;
@@ -203,6 +336,7 @@ public class Main {
                         }
 
                     }else if(colour.equals("B")){
+                        store.currentlyProcessing = false;
                         try {       //needs to wait otherwise it doesnt work. Its like it makes the program stop and think. I like it
                             TimeUnit.SECONDS.sleep(1);
                         } catch (InterruptedException e) {
@@ -211,7 +345,6 @@ public class Main {
                         randomPart(board, store, colour);
                         gui.repaint(store);     //repaints the GUI
                         colour = "W";
-
                         //checkmate checker
                         int isThereCheck = King.checkMateChecker(board,store, colour);
                         switch (isThereCheck) {
@@ -229,10 +362,7 @@ public class Main {
                             }
                         }
                     }
-
-
-
-
+                    store.currentlyProcessing = true;
                 }
 
             } else if (input.equals("random person console")) {        //this is the part that will just simulate random move with player input
